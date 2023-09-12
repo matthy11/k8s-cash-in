@@ -27,14 +27,12 @@ spec:
                   name: cash-in-config
                   key: config
             - name: GOOGLE_APPLICATION_CREDENTIALS
-              value: /google/var/secrets/service-account.json
+              value: ./secrets/service-account.json
             - name: GRPC_CLIENT_ACCOUNTS_ENGINE_CREDENTIALS
-              value: /accounts-engine/var/secrets/grpc-client-accounts-engine-service-account.json
+              value: ./secrets/service-account.json
           volumeMounts:
             - name: gcloud-cash-in-key-volume
-              mountPath: /google/var/secrets
-            - name: gcloud-grpc-client-accounts-engine-key-volume
-              mountPath: /accounts-engine/var/secrets
+              mountPath: ./secrets
       volumes:
         - name: gcloud-cash-in-key-volume
           secret:
