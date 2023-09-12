@@ -1,0 +1,12 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  namespace: cash-in
+  name: cash-in-ingress
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: "nginx-proxy-lb-ip"
+spec:
+  backend:
+    serviceName: cash-in-service
+    servicePort: 80

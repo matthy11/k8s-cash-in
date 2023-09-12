@@ -1,0 +1,44 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cash-in
+  namespace: cash-in
+  labels:
+    app: cash-in
+spec:
+  selector:
+    matchLabels:
+      app: cash-in
+  template:
+    metadata:
+      labels:
+        app: cash-in
+    spec:
+      containers:
+        - name: cash-in-app
+          image: gcr.io/error/error
+          ports:
+            - containerPort: 8000
+          env:
+            - name: CONFIG
+              valueFrom:
+                secretKeyRef:
+                  name: cash-in-config
+                  key: config
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: /google/var/secrets/service-account.json
+            - name: GRPC_CLIENT_ACCOUNTS_ENGINE_CREDENTIALS
+              value: /accounts-engine/var/secrets/grpc-client-accounts-engine-service-account.json
+          volumeMounts:
+            - name: gcloud-cash-in-key-volume
+              mountPath: /google/var/secrets
+            - name: gcloud-grpc-client-accounts-engine-key-volume
+              mountPath: /accounts-engine/var/secrets
+      volumes:
+        - name: gcloud-cash-in-key-volume
+          secret:
+            secretName: gcloud-cash-in-key
+        - name: gcloud-grpc-client-accounts-engine-key-volume
+          secret:
+            secretName: gcloud-grpc-client-accounts-engine-key

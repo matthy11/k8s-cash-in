@@ -1,0 +1,1 @@
+go test ./tests/api... -count=1

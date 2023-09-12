@@ -1,0 +1,14 @@
+.idea/
+
+# Environment configuration files except env.json
+config/*
+!config/env.json
+
+# Service account files
+k8s/*.json
+
+*.out
+cover.html
+
+vendor/
+.scannerwork

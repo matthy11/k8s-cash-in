@@ -1,0 +1,18 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: cash-in
+  name: cash-in-service
+  labels:
+    name: cash-in-service
+  annotations:
+    beta.cloud.google.com/backend-config: '{"ports": {"80":"cash-in-backend-config"}}'
+spec:
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 8000
+  selector:
+    app: cash-in
+  type: NodePort

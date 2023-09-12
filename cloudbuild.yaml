@@ -1,0 +1,26 @@
+---
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/${PROJECT_ID}/endpoints-cash-in-${_ENV}:$SHORT_SHA', '.']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/${PROJECT_ID}/endpoints-cash-in-${_ENV}:$SHORT_SHA']
+
+  - name: 'gcr.io/cloud-builders/kubectl'
+    args: ['set', 'env', '-f', 'k8s/deploy.yaml', 'GO_ENV=${_ENV}']
+
+  - name: 'gcr.io/cloud-builders/kubectl'
+    args: ['set', 'resources', '-f', 'k8s/deploy.yaml', '--limits=cpu=0,memory=0', '--requests=cpu=0,memory=0']
+
+  - name: 'gcr.io/cloud-builders/kubectl'
+    args: ['set', 'image', '-f', 'k8s/deploy.yaml', 'cash-in-app=gcr.io/${PROJECT_ID}/endpoints-cash-in-${_ENV}:$SHORT_SHA']
+
+  - name: 'gcr.io/cloud-builders/kubectl'
+    args: ['set', 'resources', '-f', 'k8s/deploy.yaml', '--limits=cpu=${_LIMITS_CPU},memory=${_LIMITS_MEMORY}', '--requests=cpu=${_REQUESTS_CPU},memory=${_REQUESTS_MEMORY}']
+
+options:
+  env:
+    - 'CLOUDSDK_COMPUTE_ZONE=${_CLUSTER_REGION}'
+    - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLUSTER_NAME}'
+
+images: ['gcr.io/${PROJECT_ID}/endpoints-cash-in-${_ENV}']
