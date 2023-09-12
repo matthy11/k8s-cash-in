@@ -27,16 +27,13 @@ spec:
                   name: cash-in-config
                   key: config
             - name: GOOGLE_APPLICATION_CREDENTIALS
-              value: ./secrets/service-account.json
+              value: /Users/mgaldamesc/Workspace/k8s-chek/k8s-cash-in/secrets/service-account.json
             - name: GRPC_CLIENT_ACCOUNTS_ENGINE_CREDENTIALS
-              value: ./secrets/service-account.json
+              value: /Users/mgaldamesc/Workspace/k8s-chek/k8s-cash-in/secrets/service-account.json
           volumeMounts:
             - name: gcloud-cash-in-key-volume
-              mountPath: ./secrets
+              mountPath: /Users/mgaldamesc/Workspace/k8s-chek/k8s-cash-in/secrets
       volumes:
         - name: gcloud-cash-in-key-volume
           secret:
             secretName: gcloud-cash-in-key
-        - name: gcloud-grpc-client-accounts-engine-key-volume
-          secret:
-            secretName: gcloud-grpc-client-accounts-engine-key
