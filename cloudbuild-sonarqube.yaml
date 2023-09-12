@@ -1,4 +1,0 @@
----
-steps:
-  - name: 'gcr.io/$PROJECT_ID/sonar-scanner:latest'
-    args: ['-Dsonar.host.url=${_SONAR_HOST_URL}', '-Dsonar.login=${_SONAR_LOGIN}', '-Dsonar.projectKey=${_SONAR_PROJECT_KEY}', '-Dsonar.sources=.']
